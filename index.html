@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联通充值对比图</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        .chart-container {
+            width: 95%;
+            margin: auto;
+            padding-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="input-table-container" style="width:95%;margin:auto;">
+        <table id="input-table" border="1" style="margin-bottom:20px;">
+            <thead>
+                <tr>
+                    <th>面额</th>
+                    <th>联通微信-慢充</th>
+                    <th>联通支付宝-慢充</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>30</td>
+                    <td><input type="number" value="26000"></td>
+                    <td><input type="number" value="20000"></td>
+                </tr>
+                <tr>
+                    <td>50</td>
+                    <td><input type="number" value="12500"></td>
+                    <td><input type="number" value="17500"></td>
+                </tr>
+                <tr>
+                    <td>100</td>
+                    <td><input type="number" value="19000"></td>
+                    <td><input type="number" value="19000"></td>
+                </tr>
+                <tr>
+                    <td>200</td>
+                    <td><input type="number" value="24901"></td>
+                    <td><input type="number" value="25000"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button onclick="updateChart()">更新图表</button>
+        <button onclick="randomizeInputs()">随机生成</button>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="rechargeChart" height="300"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('rechargeChart').getContext('2d');
+        const rechargeChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['30', '50', '100', '200'],
+                datasets: [{
+                    label: '联通微信-慢充',
+                    data: [26000, 12500, 19000, 24901],
+                    backgroundColor: 'rgba(75, 192, 100, 1)', // Green color
+                    borderColor: 'rgba(75, 192, 100, 1)',
+                    borderWidth: 1
+                }, {
+                    label: '联通支付宝-慢充',
+                    data: [20000, 17500, 19000, 25000],
+                    backgroundColor: 'rgba(54, 162, 235, 1)', // Blue color
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: false // No title as in the image
+                    },
+                    legend: {
+                        position: 'top',
+                        align: 'end',
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'rect',
+                            boxWidth: 10,
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toLocaleString();
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false // Hide x-axis grid lines
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 25000,
+                        ticks: {
+                            stepSize: 500
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)' // Light grey grid lines
+                        }
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        function updateChart() {
+            const table = document.getElementById('input-table');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            let wxData = [];
+            let zfbData = [];
+            for (let i = 0; i < rows.length; i++) {
+                wxData.push(Number(rows[i].children[1].children[0].value));
+                zfbData.push(Number(rows[i].children[2].children[0].value));
+            }
+            rechargeChart.data.datasets[0].data = wxData;
+            rechargeChart.data.datasets[1].data = zfbData;
+            rechargeChart.update();
+        }
+
+        function randomizeInputs() {
+            const table = document.getElementById('input-table');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            for (let i = 0; i < rows.length; i++) {
+                for (let j = 1; j <= 2; j++) {
+                    const randomValue = Math.floor(Math.random() * (25000 - 200 + 1)) + 200;
+                    rows[i].children[j].children[0].value = randomValue;
+                }
+            }
+            updateChart();
+        }
+    </script>
+
+</body>
+</html>
