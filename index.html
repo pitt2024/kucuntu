@@ -3,20 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>联通充值对比图</title>
+    <title>库存图</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-top: 32px;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
         }
         .chart-container {
-            width: 95%;
-            margin: auto;
-            padding-top: 50px;
+            width: 100%;
+            max-width: 700px;
+            margin: 32px auto 0 auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px 0 rgba(60, 72, 88, 0.10);
+            padding: 32px 24px 24px 24px;
+            min-height: 420px;
+        }
+        #input-table-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 40px auto 0 auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px 0 rgba(60, 72, 88, 0.10);
+            padding: 32px 24px 24px 24px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #f9fbfd;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        caption {
+            caption-side: top;
+            font-size: 1.2rem;
+            color: #3a4a5d;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        th, td {
+            padding: 14px 10px;
+            text-align: center;
+        }
+        th {
+            background: #e6eef7;
+            color: #2d3a4b;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        tr:nth-child(even) td {
+            background: #f3f6fa;
+        }
+        tr:nth-child(odd) td {
+            background: #f9fbfd;
+        }
+        input[type="number"] {
+            width: 90px;
+            padding: 6px 8px;
+            border: 1.5px solid #bfc9d9;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input[type="number"]:focus {
+            border-color: #4f8cff;
+            outline: none;
+            box-shadow: 0 0 0 2px #e3f0ff;
+        }
+        input[type="number"][style*="red"] {
+            border-color: #ff4d4f !important;
+            background: #fff6f6;
+        }
+        button {
+            background: linear-gradient(90deg, #4f8cff 0%, #38cfa6 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 12px 10px 0 0;
+            cursor: pointer;
+            box-shadow: 0 2px 8px 0 rgba(79, 140, 255, 0.08);
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #38cfa6 0%, #4f8cff 100%);
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 18px 0 rgba(79, 140, 255, 0.13);
+        }
+        @media (max-width: 800px) {
+            #input-table-container, .chart-container {
+                max-width: 98vw;
+                padding: 16px 4vw 16px 4vw;
+            }
+            table input[type="number"] {
+                width: 60px;
+                font-size: 0.95rem;
+            }
+        }
+        @media (max-width: 500px) {
+            th, td {
+                padding: 8px 2px;
+                font-size: 0.95rem;
+            }
+            button {
+                padding: 8px 12px;
+                font-size: 0.95rem;
+            }
         }
     </style>
 </head>
 <body>
+
 
     <div id="input-table-container" style="width:95%;margin:auto;">
         <table id="input-table" border="1" style="margin-bottom:20px;">
@@ -30,28 +141,28 @@
             <tbody>
                 <tr>
                     <td>30</td>
-                    <td><input type="number" value="26000"></td>
-                    <td><input type="number" value="20000"></td>
+                    <td><input type="number" value="26000" min="2000" max="25000"></td>
+                    <td><input type="number" value="20000" min="2000" max="25000"></td>
                 </tr>
                 <tr>
                     <td>50</td>
-                    <td><input type="number" value="12500"></td>
-                    <td><input type="number" value="17500"></td>
+                    <td><input type="number" value="12500" min="2000" max="25000"></td>
+                    <td><input type="number" value="17500" min="2000" max="25000"></td>
                 </tr>
                 <tr>
                     <td>100</td>
-                    <td><input type="number" value="19000"></td>
-                    <td><input type="number" value="19000"></td>
+                    <td><input type="number" value="19000" min="2000" max="25000"></td>
+                    <td><input type="number" value="19000" min="2000" max="25000"></td>
                 </tr>
                 <tr>
                     <td>200</td>
-                    <td><input type="number" value="24901"></td>
-                    <td><input type="number" value="25000"></td>
+                    <td><input type="number" value="24901" min="2000" max="25000"></td>
+                    <td><input type="number" value="25000" min="2000" max="25000"></td>
                 </tr>
             </tbody>
         </table>
-        <button onclick="updateChart()">更新图表</button>
-        <button onclick="randomizeInputs()">随机生成</button>
+        <button id="update-btn" type="button">更新图表</button>
+        <button id="random-btn" type="button">随机生成</button>
     </div>
 
     <div class="chart-container">
@@ -116,7 +227,6 @@
                     },
                     y: {
                         beginAtZero: true,
-                        max: 25000,
                         ticks: {
                             stepSize: 500
                         },
@@ -130,17 +240,40 @@
             }
         });
 
-        function updateChart() {
+        function getInputData() {
             const table = document.getElementById('input-table');
             const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
             let wxData = [];
             let zfbData = [];
+            let valid = true;
             for (let i = 0; i < rows.length; i++) {
+                for (let j = 1; j <= 2; j++) {
+                    const input = rows[i].children[j].children[0];
+                    const val = input.value;
+                    if (val === '' || isNaN(val) || Number(val) < 2000 || Number(val) > 25000) {
+                        input.style.border = '2px solid red';
+                        valid = false;
+                    } else {
+                        input.style.border = '';
+                    }
+                }
                 wxData.push(Number(rows[i].children[1].children[0].value));
                 zfbData.push(Number(rows[i].children[2].children[0].value));
             }
+            return { wxData, zfbData, valid };
+        }
+
+        function updateChart() {
+            const { wxData, zfbData, valid } = getInputData();
+            if (!valid) {
+                alert('请确保所有输入为2000~25000之间的数字');
+                return;
+            }
             rechargeChart.data.datasets[0].data = wxData;
             rechargeChart.data.datasets[1].data = zfbData;
+            const allData = wxData.concat(zfbData);
+            const maxVal = Math.max(...allData, 25000);
+            rechargeChart.options.scales.y.max = Math.ceil(maxVal / 1000) * 1000;
             rechargeChart.update();
         }
 
@@ -149,12 +282,15 @@
             const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
             for (let i = 0; i < rows.length; i++) {
                 for (let j = 1; j <= 2; j++) {
-                    const randomValue = Math.floor(Math.random() * (25000 - 200 + 1)) + 200;
+                    const randomValue = Math.floor(Math.random() * (25000 - 2000 + 1)) + 2000;
                     rows[i].children[j].children[0].value = randomValue;
                 }
             }
             updateChart();
         }
+
+        document.getElementById('update-btn').addEventListener('click', updateChart);
+        document.getElementById('random-btn').addEventListener('click', randomizeInputs);
     </script>
 
 </body>
