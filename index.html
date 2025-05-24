@@ -141,7 +141,7 @@
             <tbody>
                 <tr>
                     <td>30</td>
-                    <td><input type="number" value="26000" min="2000" max="25000"></td>
+                    <td><input type="number" value="24500" min="2000" max="25000"></td>
                     <td><input type="number" value="20000" min="2000" max="25000"></td>
                 </tr>
                 <tr>
@@ -161,7 +161,6 @@
                 </tr>
             </tbody>
         </table>
-        <button id="update-btn" type="button">更新图表</button>
         <button id="random-btn" type="button">随机生成</button>
     </div>
 
@@ -177,7 +176,7 @@
                 labels: ['金额：30', '金额：50', '金额：100', '金额：200'],
                 datasets: [{
                     label: '联通微信-慢充',
-                    data: [26000, 12500, 19000, 24901],
+                    data: [21000, 12500, 19000, 24901],
                     backgroundColor: 'rgba(75, 192, 100, 1)', // Green color
                     borderColor: 'rgba(75, 192, 100, 1)',
                     borderWidth: 1
@@ -289,8 +288,12 @@
             updateChart();
         }
 
-        document.getElementById('update-btn').addEventListener('click', updateChart);
         document.getElementById('random-btn').addEventListener('click', randomizeInputs);
+
+        // 自动更新图表：监听所有输入框的 input 事件
+        document.querySelectorAll('#input-table input[type="number"]').forEach(input => {
+            input.addEventListener('input', updateChart);
+        });
     </script>
 
 </body>
